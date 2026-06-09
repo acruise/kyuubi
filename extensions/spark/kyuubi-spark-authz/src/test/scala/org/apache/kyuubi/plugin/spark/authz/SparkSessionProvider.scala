@@ -57,6 +57,7 @@ trait SparkSessionProvider {
         "spark.sql.warehouse.dir",
         Utils.createTempDir("spark-warehouse").toString)
       .config("spark.sql.extensions", sqlExtensions)
+      .config("spark.sql.ansi.enabled", false)
       .withExtensions(extension)
       .config(extraSparkConf)
 

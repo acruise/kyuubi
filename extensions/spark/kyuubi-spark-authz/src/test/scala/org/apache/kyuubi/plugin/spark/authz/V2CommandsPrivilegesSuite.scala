@@ -563,6 +563,7 @@ abstract class V2CommandsPrivilegesSuite extends PrivilegesBuilderSuite {
     }
   }
 
+  // TODO(ac) this is failing for unknown reasons
   test("AlterColumn") {
     val table = "AlterColumn"
     withV2Table(table) { tableId =>
