@@ -563,7 +563,7 @@ abstract class V2CommandsPrivilegesSuite extends PrivilegesBuilderSuite {
     }
   }
 
-  // TODO(ac) this is failing for unknown reasons
+  // TODO(ac) #L574 -- operation type was `QUERY`, should've been `ALTERTABLE_ADDCOLS`
   test("AlterColumn") {
     val table = "AlterColumn"
     withV2Table(table) { tableId =>

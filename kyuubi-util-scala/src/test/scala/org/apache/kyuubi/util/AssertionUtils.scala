@@ -190,7 +190,15 @@ object AssertionUtils {
       pos: Position): Unit = {
     assert(end != null)
     val exception = intercept[T](f)(classTag, pos)
-    assert(exception.getMessage.endsWith(end))
+
+    val pass = exception.getMessage.endsWith(end)
+    if (!pass) {
+      assert(false,
+        s"""Exception message was:
+           |    ${exception.getMessage}
+           |  Which didn't end with the expected:
+           |    $end""".stripMargin)
+    }
   }
 
   /**

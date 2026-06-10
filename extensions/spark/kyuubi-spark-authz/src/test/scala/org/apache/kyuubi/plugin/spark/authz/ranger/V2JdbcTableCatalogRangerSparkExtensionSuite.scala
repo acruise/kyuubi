@@ -256,7 +256,7 @@ class V2JdbcTableCatalogRangerSparkExtensionSuite extends RangerSparkExtensionSu
       s" on [$namespace1/$table1]"))
   }
 
-  // TODO(ac) -- expected AccessControlException, got UndeclaredThrowableException
+  // TODO(ac) #L286 -- expected AccessControlException, got UndeclaredThrowableException (previous calls fine though)
   test("[KYUUBI #3424] ALTER TABLE") {
     // AddColumns
     val e61 = intercept[AccessControlException](

@@ -308,7 +308,7 @@ abstract class RangerSparkExtensionSuite extends AnyFunSuite
     }
   }
 
-  // TODO(ac) - `default`, `default2` both visible to bob
+  // TODO(ac) - `default`, `default2` both visible to bob, should only be `default`
   test("show databases") {
     val db = "default2"
 
@@ -954,7 +954,8 @@ class HiveCatalogRangerSparkExtensionSuite extends RangerSparkExtensionSuite {
     }
   }
 
-  // TODO(ac) -- expected AccessControlException, got nothing
+  // TODO(ac):
+  //  #L983 expected AccessControlException, nothing was thrown
   test("[KYUUBI #5472] Permanent View should pass column when child plan no output ") {
     val db1 = defaultDb
     val table1 = "table1"
@@ -1006,7 +1007,14 @@ class HiveCatalogRangerSparkExtensionSuite extends RangerSparkExtensionSuite {
     }
   }
 
-  // TODO(ac) this is failing for unknown reasons
+  // scalastyle:off
+  // TODO(ac)
+  //  "Permission denied: user [someone] does not have [select] privilege on [default/table1/id]"
+  //    did not end with
+  //                                    "does not have [select] privilege on [default/table2/id,default/table2/scope]"
+  //                                    ^                                                      ^
+  //                                    \ so far so good...                                    \ multiple columns in the complaint, expected one
+  // scalastyle:on
   test("[KYUUBI #5503][AUTHZ] Check plan auth checked should not set tag to all child nodes") {
     val db1 = defaultDb
     val table1 = "table1"
@@ -1176,6 +1184,7 @@ class HiveCatalogRangerSparkExtensionSuite extends RangerSparkExtensionSuite {
 
   // TODO(ac) -- UndeclaredThrowableException `LOAD DATA is not supported for datasource tables`
   test("LoadDataCommand") {
+    assume(!isSparkV40OrGreater)
     val db1 = defaultDb
     val table1 = "table1"
     withSingleCallEnabled {
@@ -1277,7 +1286,14 @@ class HiveCatalogRangerSparkExtensionSuite extends RangerSparkExtensionSuite {
     }
   }
 
-  // TODO(ac) -- unexpected permission denials, or maybe just formatting
+  // scalastyle:off
+  // TODO(ac) -- exception message format mismatch:
+  //  "Permission denied: user [someone] does not have [select] privilege on [default/table1/id,default/table1/scope], [create] privilege on [default/table2],                         [write] privilege on [[file:///Users/alexcruise/dev/kyuubi-oss/extensions/spark/kyuubi-spark-authz/target/tmp/kyuubi-f78ca678-661e-446b-928d-cb426d48192b, file:///Users/alexcruise/dev/kyuubi-oss/extensions/spark/kyuubi-spark-authz/target/tmp/kyuubi-f78ca678-661e-446b-928d-cb426d48192b/]]"
+  //    did not end with
+  //                                    "does not have [select] privilege on [default/table1/id,default/table1/scope], [create] privilege on [default/table2/id,default/table2/scope], [write] privilege on [[file:///Users/alexcruise/dev/kyuubi-oss/extensions/spark/kyuubi-spark-authz/target/tmp/kyuubi-f78ca678-661e-446b-928d-cb426d48192b, file:///Users/alexcruise/dev/kyuubi-oss/extensions/spark/kyuubi-spark-authz/target/tmp/kyuubi-f78ca678-661e-446b-928d-cb426d48192b/]]"
+  //                                    ^                                                                                                                   ^
+  //                                    \... so far so good...                                                                                              \ this is the first place it breaks, it looks like create-columns are a new complaint and create-table isn't present (maybe it just didn't get far enough)
+  // scalastyle:on
   test("Table Command location privilege") {
     val db1 = defaultDb
     val table1 = "table1"
