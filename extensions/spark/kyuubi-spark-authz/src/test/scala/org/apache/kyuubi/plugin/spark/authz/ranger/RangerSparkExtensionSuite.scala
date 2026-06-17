@@ -308,7 +308,6 @@ abstract class RangerSparkExtensionSuite extends AnyFunSuite
     }
   }
 
-  // TODO(ac) - `default`, `default2` both visible to bob, should only be `default`
   test("show databases") {
     val db = "default2"
 

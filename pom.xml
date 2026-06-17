@@ -2000,6 +2000,10 @@
 
         <profile>
             <id>scala-2.12</id>
+            <!-- TODO DO NOT PUSH UPSTREAM! -->
+            <activation>
+                <activeByDefault>false</activeByDefault>
+            </activation>
             <properties>
                 <scala.binary.version>2.12</scala.binary.version>
             </properties>
@@ -2008,6 +2012,10 @@
         <!-- For development only, not generally applicable for all modules -->
         <profile>
             <id>scala-2.13</id>
+            <!-- TODO DO NOT PUSH UPSTREAM! -->
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
             <properties>
                 <scala.binary.version>2.13</scala.binary.version>
                 <scala.version>2.13.17</scala.version>
@@ -2017,6 +2025,10 @@
 
         <profile>
             <id>spark-3.3</id>
+            <!-- TODO DO NOT PUSH UPSTREAM! -->
+            <activation>
+                <activeByDefault>false</activeByDefault>
+            </activation>
             <modules>
                 <module>extensions/spark/kyuubi-extension-spark-3-3</module>
                 <module>extensions/spark/kyuubi-spark-connector-hive</module>
@@ -2041,6 +2053,10 @@
                 <module>extensions/spark/kyuubi-extension-spark-3-4</module>
                 <module>extensions/spark/kyuubi-spark-connector-hive</module>
             </modules>
+            <!-- TODO DO NOT PUSH UPSTREAM! -->
+            <activation>
+                <activeByDefault>false</activeByDefault>
+            </activation>
             <properties>
                 <spark.version>3.4.4</spark.version>
                 <spark.binary.version>3.4</spark.binary.version>
@@ -2056,6 +2072,10 @@
                 <module>extensions/spark/kyuubi-extension-spark-3-5</module>
                 <module>extensions/spark/kyuubi-spark-connector-hive</module>
             </modules>
+            <!-- TODO DO NOT PUSH UPSTREAM! -->
+            <activation>
+                <activeByDefault>false</activeByDefault>
+            </activation>
             <properties>
                 <spark.version>3.5.7</spark.version>
                 <spark.binary.version>3.5</spark.binary.version>
@@ -2071,6 +2091,10 @@
                 <module>extensions/spark/kyuubi-extension-spark-4-0</module>
                 <module>extensions/spark/kyuubi-spark-connector-hive</module>
             </modules>
+            <!-- TODO DO NOT PUSH UPSTREAM! -->
+            <activation>
+                <activeByDefault>false</activeByDefault>
+            </activation>
             <properties>
                 <enforcer.maxJdkVersion>17</enforcer.maxJdkVersion>
                 <spark.version>4.0.1</spark.version>
@@ -2095,6 +2119,10 @@
                 <module>extensions/spark/kyuubi-extension-spark-4-1</module>
                 <module>extensions/spark/kyuubi-spark-connector-hive</module>
             </modules>
+            <!-- TODO DO NOT PUSH UPSTREAM! -->
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
             <properties>
                 <maven.compiler.release>17</maven.compiler.release>
                 <enforcer.maxJdkVersion>17</enforcer.maxJdkVersion>
@@ -2121,6 +2149,10 @@
                 <antlr4.version>4.13.1</antlr4.version>
                 <maven.plugin.scalatest.exclude.tags>org.scalatest.tags.Slow,org.apache.kyuubi.tags.DeltaTest,org.apache.kyuubi.tags.IcebergTest,org.apache.kyuubi.tags.PaimonTest,org.apache.kyuubi.tags.HudiTest,org.apache.kyuubi.tags.PySparkTest</maven.plugin.scalatest.exclude.tags>
             </properties>
+            <!-- TODO DO NOT PUSH UPSTREAM! -->
+            <activation>
+                <activeByDefault>false</activeByDefault>
+            </activation>
             <repositories>
                 <repository>
                     <releases>

@@ -301,7 +301,7 @@ object PrivilegesBuilder {
     val opType = plan match {
       case ObjectFilterPlaceHolder(child) if child.nodeName == "ShowTables" =>
         OperationType.SHOWTABLES
-      case ObjectFilterPlaceHolder(child) if child.nodeName == "ShowNamespaces" =>
+      case ObjectFilterPlaceHolder(child) if ShowNamespacesNodenames.contains(child.nodeName) =>
         OperationType.SHOWDATABASES
       case _: FilteredShowTablesCommand => OperationType.SHOWTABLES
       case _: FilteredShowFunctionsCommand => OperationType.SHOWFUNCTIONS

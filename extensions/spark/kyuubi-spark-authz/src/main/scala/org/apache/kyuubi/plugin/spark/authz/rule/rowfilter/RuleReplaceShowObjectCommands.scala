@@ -26,6 +26,7 @@ import org.apache.spark.sql.execution.command.{RunnableCommand, ShowColumnsComma
 
 import org.apache.kyuubi.plugin.spark.authz.{ObjectType, OperationType}
 import org.apache.kyuubi.plugin.spark.authz.ranger.{AccessRequest, AccessResource, AccessType, SparkRangerAdminPlugin}
+import org.apache.kyuubi.plugin.spark.authz.rule.Authorization.ShowNamespacesNodenames
 import org.apache.kyuubi.plugin.spark.authz.util.{AuthZUtils, WithInternalChildren}
 import org.apache.kyuubi.util.reflect.ReflectUtils._
 
@@ -34,7 +35,7 @@ object RuleReplaceShowObjectCommands extends Rule[LogicalPlan] {
     case r: RunnableCommand if r.nodeName == "ShowTablesCommand" => FilteredShowTablesCommand(r)
     case n: LogicalPlan if n.nodeName == "ShowTables" =>
       ObjectFilterPlaceHolder(n)
-    case n: LogicalPlan if n.nodeName == "ShowNamespaces" =>
+    case n: LogicalPlan if ShowNamespacesNodenames.contains(n.nodeName) =>
       ObjectFilterPlaceHolder(n)
     case r: RunnableCommand if r.nodeName == "ShowFunctionsCommand" =>
       FilteredShowFunctionsCommand(r)

@@ -183,6 +183,17 @@
   "opType" : "DESCDATABASE",
   "uriDescs" : [ ]
 }, {
+  "classname" : "org.apache.spark.sql.execution.command.ShowNamespacesCommand",
+  "databaseDescs" : [ {
+    "fieldName" : "namespace",
+    "fieldExtractor" : "ResolvedNamespaceDatabaseExtractor",
+    "catalogDesc" : null,
+    "isInput" : true,
+    "comment" : ""
+  } ],
+  "opType" : "DESCDATABASE",
+  "uriDescs" : [ ]
+}, {
   "classname" : "org.apache.spark.sql.execution.command.DropDatabaseCommand",
   "databaseDescs" : [ {
     "fieldName" : "databaseName",

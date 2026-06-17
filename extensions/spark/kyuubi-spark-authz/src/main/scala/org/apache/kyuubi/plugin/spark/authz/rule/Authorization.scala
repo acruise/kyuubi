@@ -40,6 +40,7 @@ abstract class Authorization(spark: SparkSession) extends Rule[LogicalPlan] {
 }
 
 object Authorization {
+  val ShowNamespacesNodenames = Set("ShowNamespaces", "ShowNamespacesCommand")
 
   val KYUUBI_AUTHZ_TAG = TreeNodeTag[Unit]("__KYUUBI_AUTHZ_TAG")
 
