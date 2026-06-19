@@ -257,7 +257,7 @@ class V2JdbcTableCatalogRangerSparkExtensionSuite extends RangerSparkExtensionSu
       s" on [$namespace1/$table1]"))
   }
 
-  // TODO(ac)
+  // FIXME(ac)
   //  - this has been forked into two tests, one for each major version of Spark. What remains
   //    here works on both.
   test("[KYUUBI #3424] ALTER TABLE - all versions") {
@@ -286,7 +286,7 @@ class V2JdbcTableCatalogRangerSparkExtensionSuite extends RangerSparkExtensionSu
       s" on [$namespace1/$table1]"))
   }
 
-  // TODO(ac)
+  // FIXME(ac)
   //  - this case is broken out because it only works as expected in Spark 3.x; see the ` - Spark4` version
   test("[KYUUBI #3424] ALTER TABLE - Spark3") {
     assume(!isSparkV40OrGreater)
@@ -301,7 +301,7 @@ class V2JdbcTableCatalogRangerSparkExtensionSuite extends RangerSparkExtensionSu
       s" on [$namespace1/$table1]"))
   }
 
-  // TODO(ac)
+  // FIXME(ac)
   //  - this case is broken out because AnalysisException doesn't descend from RuntimeException
   //    or anything else expected by `UserGroupInformation.doAs`, so the rethrow falls through
   //    and the expected error message is absent

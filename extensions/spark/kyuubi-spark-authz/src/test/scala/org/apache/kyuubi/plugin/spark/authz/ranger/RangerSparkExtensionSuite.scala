@@ -532,7 +532,7 @@ class HiveCatalogRangerSparkExtensionSuite extends RangerSparkExtensionSuite {
   override protected val extraSparkConf: SparkConf = new SparkConf()
     .set("spark.kyuubi.authz.udf.enabled", "true")
 
-  // TODO(ac) -- the downcast isn't valid, but is there some other way to get table stats?
+  // FIXME(ac) -- the downcast isn't valid, but is there some other way to get table stats?
   test("table stats must be specified") {
     assume(!isSparkV40OrGreater)
     val table = "hive_src"
@@ -954,7 +954,8 @@ class HiveCatalogRangerSparkExtensionSuite extends RangerSparkExtensionSuite {
   }
 
   // TODO(ac):
-  //  #L983 expected AccessControlException, nothing was thrown
+  //  - #L983 expected AccessControlException, nothing was thrown -- plan node is Aggregate,
+  //    not found in `scan_command_spec.json`??
   test("[KYUUBI #5472] Permanent View should pass column when child plan no output ") {
     val db1 = defaultDb
     val table1 = "table1"
@@ -980,10 +981,6 @@ class HiveCatalogRangerSparkExtensionSuite extends RangerSparkExtensionSuite {
         checkAnswer(someone, s"SELECT count(*) FROM $db1.$view2", Row(1) :: Nil)
 
         interceptEndsWith[AccessControlException](
-          doAs(someone, sql(s"SELECT count(id) FROM $db1.$table1 WHERE id > 10").show()))(
-          s"does not have [select] privilege on [$db1/$table1/id]")
-
-        interceptEndsWith[AccessControlException](
           doAs(someone, sql(s"SELECT count(id) FROM $db1.$view1 WHERE id > 10").show()))(
           s"does not have [select] privilege on [$db1/$view1/id]")
 
@@ -992,16 +989,25 @@ class HiveCatalogRangerSparkExtensionSuite extends RangerSparkExtensionSuite {
           s"does not have [select] privilege on [$db1/$view2/sum_id]")
 
         interceptEndsWith[AccessControlException](
-          doAs(someone, sql(s"SELECT count(scope) FROM $db1.$table1 WHERE id > 10").show()))(
-          s"does not have [select] privilege on [$db1/$table1/scope,$db1/$table1/id]")
+          doAs(someone, sql(s"SELECT count(cnt) FROM $db1.$view2 WHERE sum_id > 10").show()))(
+          s"does not have [select] privilege on [$db1/$view2/cnt,$db1/$view2/sum_id]")
 
         interceptEndsWith[AccessControlException](
           doAs(someone, sql(s"SELECT count(scope) FROM $db1.$view1 WHERE id > 10").show()))(
           s"does not have [select] privilege on [$db1/$view1/scope,$db1/$view1/id]")
 
+        // TODO(ac)
+        //  - This is identical to the previous one, but now it references the table, not the view.
+        //    We're expecting permission denied for the `scope` and `id` columns, but the analysis
+        //    thinks the authz check has already been performed because the scan is tagged with
+        //    KYUUBI_AUTHZ_TAG
         interceptEndsWith[AccessControlException](
-          doAs(someone, sql(s"SELECT count(cnt) FROM $db1.$view2 WHERE sum_id > 10").show()))(
-          s"does not have [select] privilege on [$db1/$view2/cnt,$db1/$view2/sum_id]")
+          doAs(someone, sql(s"SELECT count(scope) FROM $db1.$table1 WHERE id > 10").show()))(
+          s"does not have [select] privilege on [$db1/$table1/scope,$db1/$table1/id]")
+
+        interceptEndsWith[AccessControlException](
+          doAs(someone, sql(s"SELECT count(id) FROM $db1.$table1 WHERE id > 10").show()))(
+          s"does not have [select] privilege on [$db1/$table1/id]")
       }
     }
   }
